@@ -1,8 +1,9 @@
-const daysElement = document.querySelector(".days");
-const hoursElement = document.querySelector(".hours");
-const minutesElement = document.querySelector(".minutes");
-const secondsElement = document.querySelector(".seconds");
-const heading = document.querySelector("h1");
+const daysElement = document.querySelector(".days"),
+hoursElement = document.querySelector(".hours"),
+minutesElement = document.querySelector(".minutes"),
+secondsElement = document.querySelector(".seconds"),
+heading = document.querySelector("h1"),
+counterTimer = document.querySelector(".counterTimer");
 
 const second = 1000,
 minute = 60 * second,
@@ -11,27 +12,21 @@ day = 24 * hour;
 
 const timerFunction =()=>{
 
-    const now = new Date();
-    let dd = String(now.getDate()).padStart(2, "0"),
+    let now = new Date(),
+    dd = String(now.getDate()).padStart(2, "0"),
     mm = String(now.getMonth()+1).padStart(2, "0"),
     yyyy = now.getFullYear();
 
     const enteredDay = prompt("Enter Day").padStart(2, "0");
     const enteredMonth = prompt("Enter Month").padStart(2, "0");
+    now = `${mm}/${dd}/${yyyy}`;
     let targetDate = `${enteredMonth}/${enteredDay}/${yyyy}`;
-    console.log();
 
-    // setInterval(()=>{
-    //     const timer = new Date(targetDate).getTime(),
-    // today = new Date().getTime(),
-    // difference = timer - today,
-    // leftDay = Math.floor(difference / day),
-    // leftHour = Math.floor((difference % day)/ hour),
-    // leftMinute = Math.floor((difference % hour)/ minute),
-    // leftSecond = Math.floor((difference % minute)/ second);
+    if(now > targetDate)  targetDate = `${enteredMonth}/${enteredDay}/${yyyy + 1}`;
 
-    setInterval(()=>{
-        const timer = new Date(targetDate).getTime(),
+const intervalId = setInterval(()=>{
+    
+    const timer = new Date(targetDate).getTime(),
     difference = timer - new Date().getTime(),
     leftDay = Math.floor(difference / day),
     leftHour = Math.floor((difference % day)/ hour),
@@ -43,7 +38,10 @@ const timerFunction =()=>{
     minutesElement.innerText = leftMinute;
     secondsElement.innerText = leftSecond;
 
-    },1000);
+    if(difference < 0){
+        counterTimer.style.display = "none";
+        heading.innerText = "Times Up";
+        clearInterval(intervalId);
+    }},1000);
 };
-
 timerFunction();
