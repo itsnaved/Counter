@@ -17,15 +17,27 @@ const timerFunction =()=>{
     mm = String(now.getMonth()+1).padStart(2, "0"),
     yyyy = now.getFullYear();
 
-    const enteredDay = prompt("Enter Day").padStart(2, "0");
-    const enteredMonth = prompt("Enter Month").padStart(2, "0");
+    // const enteredDay = prompt("Enter Day").padStart(2, "0");
+    // const enteredMonth = prompt("Enter Month").padStart(2, "0");
+
+    let enteredDay, enteredMonth;
+    do {
+        enteredDay = prompt("Enter Day (1-31):");
+        } while ( isNaN(enteredDay) || enteredDay < 1 || enteredDay > 31 );
+        enteredDay = enteredDay.padStart(2, "0");
+
+    do {
+        enteredMonth = prompt("Enter Month (1-12):");
+        } while ( isNaN(enteredMonth) || enteredMonth < 1 || enteredMonth > 12 );
+        enteredMonth = enteredMonth.padStart(2, "0");
+
     now = `${mm}/${dd}/${yyyy}`;
     let targetDate = `${enteredMonth}/${enteredDay}/${yyyy}`;
 
     if(now > targetDate)  targetDate = `${enteredMonth}/${enteredDay}/${yyyy + 1}`;
 
 const intervalId = setInterval(()=>{
-    
+
     const timer = new Date(targetDate).getTime(),
     difference = timer - new Date().getTime(),
     leftDay = Math.floor(difference / day),
